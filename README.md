@@ -19,3 +19,11 @@ Note - extra point for the way you arrange the files and naming convention of th
 
 1. Refer ``` kubernetes ``` folder  which has deployment.yaml and service.yaml. take those manifest files and templatize using helm.
 
+## Ansible
+1. write playbook to install and configure jenkins ( when i access jenkins should be able to see jenkins home page)
+    ```
+    NOTE - when I run playbook on any os like ubuntu, centos, amazon linux it should install and configure.
+    ```
+## shell scripting 
+1. Think of usecase which uses any 2 of sed/grep/awk and write a script of your own
+
