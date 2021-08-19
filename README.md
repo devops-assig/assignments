@@ -4,7 +4,7 @@
 
 For this repository --> create your own branch --> raise PR against this repo 
 
-Note - extra point for the way you arrange the files and naming convention of the files. 
+Note - extra point for the way you arrange the files and naming convention of the files. Also if any question has explanation then you can update your answer in README.md  
 
 ## Terraform 
 
