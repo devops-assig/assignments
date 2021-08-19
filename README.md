@@ -17,7 +17,7 @@ Note - extra point for the way you arrange the files and naming convention of th
    
 ## Helm 
 
-1. Refer ``` kubernetes ``` folder  which has deployment.yaml and service.yaml. take those manifest files and templatize using helm.
+1. Refer ``` kubernetes ``` folder  which has deployment.yaml and service.yaml. take those manifest files and templatize using helm( use helm functions as much as possible).
 
 ## Ansible
 1. write playbook to install and configure jenkins ( when i access jenkins should be able to see jenkins home page)
