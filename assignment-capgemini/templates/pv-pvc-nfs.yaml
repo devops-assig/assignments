@@ -1,0 +1,79 @@
+{{ if eq .Values.storage "nfs" }}
+---
+{{ if .Values.nfs.assign }}
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ template "assigment.fullname" . }}-assign-nfs-pv
+  namespace: {{ .Values.namespace }}
+  labels:
+    name: {{ template "assigment.fullname" . }}-assign-nfs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  storageClassName: standard
+  accessModes:
+  - ReadWriteMany
+  claimRef:
+    namespace: {{ .Values.namespace }}
+    name: {{ template "assigment.fullname" . }}-assign-nfs-pvc
+  nfs:
+    server: {{ .Values.nfs.assign.server }}
+    path: {{ .Values.nfs.assign.path }}{{ .Values.nfs.assign.folder }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "assigment.fullname" . }}-assign-nfs-pvc
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 512Mi
+  selector:
+    matchLabels:
+      name: {{ template "assigment.fullname" . }}-assign-nfs-pvc
+{{ end }}
+
+{{ if .Values.nfs.configmnt }}
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ template "assigment.fullname" . }}-configmnt-nfs-pv
+  namespace: {{ .Values.namespace }}
+  labels:
+   name: {{ template "assigment.fullname" . }}-configmnt-nfs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  storageClassName: standard
+  accessModes:
+  - ReadWriteMany
+  claimRef:
+    namespace: {{ .Values.namespace }}
+    name: {{ template "assigment.fullname" . }}-configmnt-nfs-pvc
+  nfs:
+    server: {{ .Values.nfs.configmnt.server }}
+    path: {{ .Values.nfs.configmnt.path }}{{ .Values.nfs.configmnt.folder }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "assigment.fullname" . }}-configmnt-nfs-pvc
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 512Mi
+  selector:
+    matchLabels:
+      name: {{ template "assigment.fullname" . }}-configmnt-nfs-pvc
+{{ end }}
+
+

@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "assigment.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "assigment.fullname" . }}
+    chart: {{ template "assigment.chart" . }}
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+           matchExpressions:
+           - key: app
+           operator: In
+           values:
+           - web-store
+        topologyKey: "kubernetes.io/hostname"
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+           matchExpressions:
+           - key: app
+           operator: In
+           values:
+           - store
+        topologyKey: "kubernetes.io/hostname"
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: {{ template "assigment.name" . }}
+  selector:
+    matchLabels:
+      app: {{ template "assigment.fullname" . }}
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: {{ template "assigment.fullname" . }}
+        k8s-app: {{ template "assigment.fullname" . }}
+        kubernetes.io/cluster-service: "true"
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: {{ template "assigment.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: JAVA_OPTS
+          value: "{{ .Values.jvmParams.java_opts }}"
+        - name: SDC_JAVA_OPTS
+          value: "{{ .Values.jvmParams.sdc_java_opts }}"
+        ports:
+        - containerPort: 18630
+          name: ui
+        readinessProbe:
+          exec:
+            command: ["curl", "127.0.0.1:18630/assign-rest/ping"]
+        resources:
+         limits:
+          cpu: "{{ .Values.resources.cpu }}" 
+          memory: "{{ .Values.resources.memory }}"
+          ephemeral-storage: "4Gi"
+         requests:
+          cpu: "{{ .Values.resources.cpu }}"
+          memory: "{{ .Values.resources.memory }}"
+          ephemeral-storage: "1Gi"
+        lifecycle:
+          postStart:
+           exec:
+               command:
+                  - sh
+                  - -c
+                  - >
+                     sleep 1;                    
+        volumeMounts:
+        - name: data
+          mountPath: /data
+        - name: configmnt
+          mountPath: /config_mnt
+        - name: main-config
+          mountPath: /etc/sdc/credential-stores.properties
+          subPath: credential-stores.properties
+        {{ if .Values.nfs.assign}}
+        - name: assign
+          mountPath: /mnt
+        {{ end }}
+      volumes:
+      - name: main-config
+        configMap:
+          defaultMode: 0664
+          name: {{ template "assigment.fullname" . }}-cred-config
+      {{ if .Values.nfs.assign}}
+      - name: assign
+        persistentVolumeClaim:
+          claimName: {{ template "assigment.fullname" . }}-assign-nfs-pvc
+      {{ end }}
+      {{ if .Values.nfs.configmnt}}
+      - name: configmnt
+        persistentVolumeClaim:
+          claimName: {{ template "assigment.fullname" . }}-configmnt-nfs-pvc
+      {{ end }}

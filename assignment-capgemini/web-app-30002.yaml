@@ -1,0 +1,26 @@
+namespace: prod-env-assign
+image:
+  repository: 10.210.10.248:5000/assignemt/customapp-java
+  tag: "1.1.0"
+  pullPolicy: Always
+nfs:
+  assign:
+    server: 10.210.10.250
+    path: "/pathtofiles"
+    folder: "/prod/assign"
+  configmnt:
+    server: 10.210.10.250
+    path: "/pathtofiles"
+    folder: "/prod/config/"     
+service:
+  permanentport: 30002
+resources:
+  cpu: 250m
+  memory: 8Gi
+maxBatchSize: 10000
+env: "[PROD] Assign"
+jvmParams:
+  sdc_java_opts: "-Xmx16g -Xms16g -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5 -XX:InitiatingHeapOccupancyPercent=70"
+  sdc_java8_opts: "-XX:+UseG1GC -Djdk.nio.maxCachedBufferSize=262144"
+  java_opts: "-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxGCPauseMillis=200 -XX:ParallelGCThreads=20 -XX:ConcGCThreads=5 -XX:InitiatingHeapOccupancyPercent=70"
+

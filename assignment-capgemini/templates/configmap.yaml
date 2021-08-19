@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: "{{ template "assigment.fullname" . }}-cred-config"
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "assigment.name" . }}
+data:
+ assigment-stores.properties: |-
+  assigment.config.addr=http://10.210.10.240:30500
+  assigment.config.user.id=demo
+  assigment.config.password=demo1
+
+
+

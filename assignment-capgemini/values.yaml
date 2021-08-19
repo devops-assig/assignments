@@ -1,0 +1,11 @@
+replicaCount: 1
+service:
+  type: NodePort
+  port: 18630
+nfs:
+  server: 10.210.10.250
+  path: "/pathtofiles"
+storage: nfs
+nodeSelector: {}
+tolerations: []
+affinity: {}

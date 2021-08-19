@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "assigment.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "assigment.fullname" . }}
+    chart: {{ template "assigment.chart" . }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
+      name: http
+      nodePort: {{ .Values.service.permanentport }}
+  selector:
+    app: {{ template "assigment.fullname" . }}
+---
