@@ -8,7 +8,7 @@ Note - extra point for the way you arrange the files and naming convention of th
 
 ## Terraform 
 
-1. write a terraform file which creates ec2 machine installed with docker, also authenticate with docker creds and once thats done copy deamon.json which will be present at ~/.docker to local mcahine where we are running terraform files
+1. write a terraform file which creates ec2 machine installed with docker, also authenticate with docker creds and once thats done. copy deamon.json which will be present at ~/.docker to local mcahine where we are running terraform files
 
 ## AWS
 
@@ -18,6 +18,9 @@ Note - extra point for the way you arrange the files and naming convention of th
 ## Helm 
 
 1. Refer ``` kubernetes ``` folder  which has deployment.yaml and service.yaml. take those manifest files and templatize using helm( use helm functions as much as possible).
+
+## Kuernetes 
+1. Lets say a if application want to run succesfully, then we need one web app pod and other database pod. Now what are the concepts and objects will you use to make application highly available, secured and scalling if load increases.  
 
 ## Ansible
 1. write playbook to install and configure jenkins ( when i access jenkins should be able to see jenkins home page)
