@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullname }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - web-store
+              topologyKey: {{ .Values.topologyKey | quote }}
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - store
+              topologyKey: {{ .Values.topologyKey | quote }}
+      containers:
+        - name: {{ .Values.container }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}

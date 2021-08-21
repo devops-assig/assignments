@@ -1,0 +1,9 @@
+fullname: web-server
+name: web-store
+container: web-app
+replicaCount: 2
+image: nginx:1.16-alpine
+spec:
+  ports:
+    port: 80
+topologyKey: kubernetes.io/hostname

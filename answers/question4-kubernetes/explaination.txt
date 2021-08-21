@@ -1,0 +1,35 @@
+Lets say, if application want to run successfully, then we need one web app pod and other database pod.
+Now what are the concepts and objects will you use to make application highly available,secured and scaling if load increases.
+
+Current Architecture:
+--------------------
+
+one web app pod
+one database pod
+
+Requirements:
+-------------
+Scaling
+Security
+High Availability
+
+SCALING:
+1. Horizontal Pod Autoscaling:
+For workloads with HPA configured, the HPA controller monitors the workload’s pods to determine if it needs to change the number of pod replicas.
+
+2. Vertical Pod Autoscaling:
+The Vertical Pod Autoscaler (VPA) can increase and decrease the CPU and memory resource requests of pod containers
+to better match the allocated cluster resource allotment to actual usage.
+
+SECURITY:
+1. RBAC
+RBAC provides a method for controlling authorization to access a cluster’s Kubernetes API server, both for users and
+service accounts in the cluster.
+2. Use of ingress
+Kubernetes Ingress is an API object that provides routing rules to manage external users' access to the services in a Kubernetes cluster,
+typically via HTTPS/HTTP. With Ingress, you can easily set up rules for routing traffic without creating a bunch of Load Balancers or
+exposing each service on the node.
+
+HIGH AVAILABILITY:
+1. LivenessProbe that can be defined for each container to not only restart them in case of crash, but also perform periodic active checks.
+2. Stateful set for database

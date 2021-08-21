@@ -1,0 +1,15 @@
+Amazon S3 trigger to invoke a Lambda function
+By using event triggers in Amazon S3, you make the process of executing the Lambda functions automatic.
+
+1. Create S3 on which the operations are performed
+2. Create Lambda function
+ 2 a. Use a trigger
+      Under S3 trigger, choose the S3 bucket that you created previously.
+      When you configure an S3 trigger using the Lambda console,
+      the console modifies your function's resource-based policy to allow Amazon S3 to invoke the function.
+
+3. The Lambda function retrieves the source S3 bucket name and the key name of the uploaded object from the event parameter that it receives.
+   The function uses the Amazon S3 getObject API to retrieve the content type of the object.
+
+Note- configure the trigger to only apply to a prefix used for incoming objects.
+      Amazon S3 Adds Prefix and Suffix Filters for Lambda Function Triggering
